@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:attendace_app/ui/attend/camera_screen.dart';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -25,14 +28,14 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   @override
   void initState() {
-    handleLocationPermission();
-    setDateTime();
-    setAttendStatus();
+    // handleLocationPermission();
+    // setDateTime();
+    // setAttendStatus();
 
-    if (image != null) {
-      isLoading = true;
-      getGeoLocationPosition();
-    }
+    // if (image != null) {
+    //   isLoading = true;
+    //   getGeoLocationPosition();
+    // }
   }
 
   @override
@@ -45,10 +48,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         elevation: 0,
         backgroundColor: Colors.blueAccent,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.of(context).pop(), 
           ),
-          title: Text(
+          title: const Text(
             "Attendance Report",
             style: TextStyle(
               fontSize: 18,
@@ -60,7 +63,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       body:SingleChildScrollView(
         child: Card(
           color: Colors.white,
-          margin: EdgeInsets.fromLTRB(10, 10, 10, 30),
+          margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -70,14 +73,14 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             children: [
               Container(
                 height: 50,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                  borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10)
                 ),
                 color: Colors.blueAccent,
               ),
-              child: Row(
+              child: const Row(
                 children: [
                   SizedBox(width: 12),
                   Icon(Icons.face_retouching_natural_outlined),
@@ -92,8 +95,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 ],
               )
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10,20,0,20),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(10,20,0,20),
                 child: Text(
                   'Capture Image',
                   style: TextStyle(
@@ -106,18 +109,58 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => cameraScreen())
+                      MaterialPageRoute(builder: (context) => const CameraScreen())
                       );
                   },
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
                     width: size.width,
                     height: 150,
                     child: DottedBorder(
-                      child: 
+                      radius: const Radius.circular(10),
+                      borderType: BorderType.RRect,
+                      color: Colors.blueAccent,
+                      strokeWidth: 1,
+                      dashPattern: [5, 5],
+                      child: SizedBox.expand(
+                        child: FittedBox(
+                          child: image != null 
+                          ? Image.file(File(image!.path), fit: BoxFit.contain,)
+                          : Icon(Icons.camera_enhance_outlined)
+                        ),
+                      )
                       )
                     )
-                )
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.text,
+                    controller: TextEditingController(),
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                      labelText: "Your Name",
+                      hintText: "Please type your name here",
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey
+                      ),
+                      labelStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.blueAccent)
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.blueAccent)
+                      )
+                    ),
+                  ),
+                  ),
               ]
               )
           ),
