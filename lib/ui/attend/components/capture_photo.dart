@@ -41,7 +41,7 @@ Padding buidlCapturePhotoSection(BuildContext context, Size size, XFile? image) 
                 child: image != null
                 ? Image.file(File(image.path), fit:  BoxFit.cover,)
                 : Icon(
-                  Icons.camera_alt_outlined,
+                  Icons.camera_enhance_outlined,
                   color: Colors.blueAccent,
                 )
               ),
