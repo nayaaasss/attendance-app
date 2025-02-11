@@ -8,7 +8,7 @@ class DeleteDialog extends StatelessWidget {
   final String documentId;
   final CollectionReference datacollection;
 
-  const DeleteDialog({super.key, required this.documentId, required this.datacollection});
+  const DeleteDialog({super.key, required this.documentId, required this.datacollection, required Null Function() onConfirm});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class DeleteDialog extends StatelessWidget {
           color: Colors.black
         ),
       ),
-      content: Text(
+      content: const Text(
         "Are you sure you want to delete this data?",
         style: TextStyle(
           fontSize: 14,
@@ -29,7 +29,7 @@ class DeleteDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          child: Text(
+          child: const Text(
             "yes",
             style: TextStyle(
               fontSize: 14,
@@ -39,12 +39,13 @@ class DeleteDialog extends StatelessWidget {
           //konfirmasi dluu yaa sblm bener" di hapus
           //dengan cara memanggil dataCollection yg ada di firbase firstore
           onPressed: () {
+            //untuk berkomunikasi dengan database untuk melakukan penghapusan data dri database
             datacollection.doc(documentId).delete(); // cara menghapus
             Navigator.pop(context);
           },
           ),
           TextButton(
-            child: Text(
+            child: const Text(
               "No",
               style: TextStyle(
                 fontSize: 14,

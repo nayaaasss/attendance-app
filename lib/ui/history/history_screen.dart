@@ -1,4 +1,6 @@
 import 'package:attendace_app/services/data_service.dart';
+import 'package:attendace_app/ui/history/components/attendance_card.dart';
+import 'package:attendace_app/ui/history/components/delete_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +21,7 @@ class _AttendanceHistoryScreenStateState extends State<AttendanceHistoryScreenSt
           "Attendance History",
         )
       ),
-      body: StreamBuilder( //untuk membuat ui ki agar termanage dengan baik
+      body: StreamBuilder( //untuk membuat ui kita agar termanage dengan baik
         stream: dataService.dataCollection.snapshots(),//snapshots untuk memanage dan menghandle dri data" yg sudah kita ambil
          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) { //jika snapshot kita gapunya data, dia akan mereturn teks
@@ -29,10 +31,30 @@ class _AttendanceHistoryScreenStateState extends State<AttendanceHistoryScreenSt
           }
 
           final data = snapshot.data!.docs; //documen adalah reprsentasi semua data yg ada di firbase firestor
+          //ini jika mempunyai data
+          //membuat data secara list
           return ListView.builder(
             itemCount: data.length, //untuk menghitung jumlah data yg ada di firbase, length itu jumlah datanya berapa
             itemBuilder: (context, index) {
-              //put attendance card UI here
+              return AttendanceHistoryCard(
+                data: data[index].data() as Map<String, dynamic>, //untuk mendefinisikan data yg akan muncul di UI berdasarkan index atau posisi yg ada di db
+                onDelete: () {
+                  showDialog(
+                    context: context, 
+                    builder: (context) => DeleteDialog(
+                      documentId: data[index].id, //untuk menjadikan index sbg id dri data yg ada di db
+                      datacollection: dataService.dataCollection,
+                      //digunakan untuk memperbarui state setelah terjadi penghapusa data dri db
+                      onConfirm: () {
+                        setState(() {
+                          dataService.deleteData(data[index].id); //memperbarui index jika si user menghapus data
+                          Navigator.pop(context);
+                        });
+                      },
+                      )
+                    );
+                }
+                );
             },
           );
          }

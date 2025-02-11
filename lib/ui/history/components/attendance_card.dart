@@ -3,6 +3,8 @@ import 'package:attendace_app/ui/history/components/delete_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+
+//untuk menampung si history
 class AttendanceHistoryCard extends StatelessWidget {
   final Map<String, dynamic> data; //map adlah pasangan key dan value
   final VoidCallback onDelete;
@@ -38,7 +40,7 @@ class AttendanceHistoryCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    data['name'][0].toUpperCase(), //ini memanggil nama dri firstore dimulai dri 0 indexnya dan jd capslock
+                    data['name'][0].toUpperCase(), //name itu dari file attendance_service dri pasangan key value dan ini memanggil nama dri firstore dimulai dri 0 indexnya dan jd capslock
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14
@@ -85,7 +87,7 @@ class AttendanceHistoryCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          data['description'],
+                          data['description'], //pemanggilannya jg dri key value dri attendance service
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14
