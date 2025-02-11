@@ -35,6 +35,7 @@ class SubmitButton extends StatelessWidget {
   }
 
   void _submitHandler(BuildContext context) {
+    //klo formnya valid maka akan lgsg submit
     if (_isFormValid()) {
       _submitForm(context);
     } else {
